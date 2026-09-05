@@ -242,6 +242,151 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .letter-overlay {
+        padding: 0.75rem;
+      }
+
+      .letter-overlay::before {
+        background-size: min(62vw, 260px) auto;
+        background-position: center 5%;
+        opacity: 0.24;
+      }
+
+      .letter-envelope {
+        width: 100%;
+        min-height: min(78svh, 500px);
+      }
+
+      .letter-paper {
+        inset: 6% 3%;
+        padding: 2.5rem 1.2rem;
+      }
+
+      .letter-kicker {
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+      }
+
+      .letter-heading {
+        font-size: clamp(2.25rem, 12vw, 3.5rem);
+        line-height: 1.1;
+      }
+
+      .letter-copy {
+        max-width: 270px;
+        font-size: 0.9rem;
+      }
+
+      .letter-seal {
+        width: 62px;
+        height: 62px;
+        font-size: 1.05rem;
+      }
+
+      .letter-prompt {
+        min-width: 0;
+        width: min(80%, 220px);
+        padding: 0.9rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding: 4rem 1rem 2.5rem;
+      }
+
+      .mandala-bg {
+        width: min(125vw, 440px);
+        height: min(125vw, 440px);
+      }
+
+      .auspicious-shloka {
+        max-width: 100%;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+      }
+
+      .hero-title {
+        max-width: 100%;
+        font-size: clamp(1.55rem, 8.5vw, 2.5rem);
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+      }
+
+      .date-venue-tag {
+        max-width: 290px;
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+        line-height: 1.5;
+      }
+
+      .timer-container {
+        width: 100%;
+        gap: 0.55rem;
+        margin-top: 1.5rem;
+      }
+
+      .timer-box {
+        flex: 1 1 calc(25% - 0.55rem);
+        min-width: 0;
+        padding: 0.6rem 0.35rem;
+      }
+
+      .timer-box span {
+        font-size: 1.35rem;
+      }
+
+      .timer-box label {
+        font-size: 0.62rem;
+        letter-spacing: 0.8px;
+      }
+
+      section {
+        padding: 3.5rem 1rem;
+      }
+
+      .section-heading {
+        font-size: clamp(1.7rem, 8vw, 2.2rem);
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .timeline-card {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      .event-title {
+        font-size: 1.25rem;
+      }
+
+      .event-time {
+        font-size: 0.85rem;
+      }
+
+      .event-location {
+        padding: 0.35rem 0;
+      }
+
+      .rsvp-wrapper {
+        padding: 2rem 1rem;
+      }
+
+      input, select, textarea,
+      .btn-submit {
+        min-height: 48px;
+      }
+
+      footer {
+        padding: 2rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
     /* Scroll Animation Utility Classes */
     .reveal {
       opacity: 0;
