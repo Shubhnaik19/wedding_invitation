@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation | Shubham & Anusha</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Marcellus&family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-maroon: #5B0E1B;
+      --deep-crimson: #3D050E;
+      --gold: #D4AF37;
+      --light-gold: #F4E4BA;
+      --parchment: #F3E3BF;
+      --parchment-shadow: #C7A86B;
+      --warm-ivory: #FFFDF9;
+      --accent-terracotta: #A8422B;
+      --text-dark: #2A1810;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--warm-ivory);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .letter-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      pointer-events: auto;
+      padding: 1.5rem;
+      overflow: auto;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(244, 228, 186, 0.12) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 35%, rgba(244, 228, 186, 0.14) 0 1px, transparent 2px),
+        radial-gradient(circle at 50% 80%, rgba(244, 228, 186, 0.1) 0 1px, transparent 2px),
+        var(--deep-crimson);
+      background-size: 170px 170px, 230px 230px, 190px 190px, auto;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .letter-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('ganesha.png') center 8% / min(54vw, 360px) auto no-repeat;
+      opacity: 0.32;
+      pointer-events: none;
+    }
+
+    .letter-envelope {
+      position: relative;
+      z-index: 1;
+      width: min(88vw, 650px);
+      min-height: min(76vh, 560px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.4));
+    }
+
+    .letter-paper {
+      position: absolute;
+      inset: 4% 7%;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-dark);
+      border: 8px double var(--parchment-shadow);
+      background:
+        linear-gradient(rgba(255, 252, 235, 0.72), rgba(255, 252, 235, 0.72)),
+        repeating-linear-gradient(0deg, transparent 0 28px, rgba(111, 77, 32, 0.08) 29px);
+      background-color: var(--parchment);
+      transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease 0.5s;
+    }
+
+    .letter-paper::before,
+    .letter-paper::after {
+      content: '';
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--parchment-shadow);
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .letter-paper::before {
+      top: 18px;
+      left: 18px;
+    }
+
+    .letter-paper::after {
+      right: 18px;
+      bottom: 18px;
+    }
+
+    .letter-kicker {
+      font-family: 'Marcellus', serif;
+      color: var(--primary-maroon);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .letter-heading {
+      margin: 1rem 0 0.5rem;
+      font-family: 'Great Vibes', cursive;
+      color: var(--primary-maroon);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 400;
+    }
+
+    .letter-copy {
+      max-width: 370px;
+      font-family: 'Marcellus', serif;
+      font-size: 1rem;
+    }
+
+    .letter-envelope::before {
+      content: '';
+      position: absolute;
+      inset: 12% 0 0;
+      z-index: 2;
+      background: linear-gradient(145deg, #D8B979, #9C712E);
+      clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+      border: 2px solid var(--gold);
+      opacity: 0.96;
+    }
+
+    .letter-flap {
+      position: absolute;
+      top: 12%;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      height: 50%;
+      transform-origin: top center;
+      background: linear-gradient(145deg, #E5C98D, #B28743);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-top: 2px solid var(--light-gold);
+      transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease 0.8s;
+    }
+
+    .letter-seal {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      z-index: 4;
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border: 4px solid #8A1627;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #B83247, #67101D 70%);
+      color: var(--light-gold);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.35rem;
+      box-shadow: 0 4px 10px rgba(61, 5, 14, 0.45);
+      transition: transform 0.7s ease, opacity 0.3s ease;
+    }
+
+    .letter-prompt {
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      z-index: 5;
+      min-width: 190px;
+      padding: 1rem 1.4rem;
+      transform: translateX(-50%);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      background: var(--primary-maroon);
+      color: var(--light-gold);
+      font-family: 'Marcellus', serif;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .letter-prompt:hover,
+    .letter-prompt:focus-visible {
+      background: var(--deep-crimson);
+      outline: 2px solid var(--light-gold);
+      outline-offset: 3px;
+    }
+
+    .letter-overlay.is-open {
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .letter-overlay.is-open .letter-flap {
+      transform: rotateX(180deg);
+      opacity: 0;
+    }
+
+    .letter-overlay.is-open .letter-seal {
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+    }
+
+    .letter-overlay.is-open .letter-paper {
+      transform: translateY(-8%) scale(1.03);
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .letter-overlay,
+      .letter-paper,
+      .letter-flap,
+      .letter-seal {
+        transition-duration: 0.01s;
+      }
+    }
+
+    /* Scroll Animation Utility Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(circle at center, var(--primary-maroon), var(--deep-crimson));
+      color: var(--warm-ivory);
+      padding: 2rem 1rem;
+    }
+
+    .mandala-bg {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      opacity: 0.08;
+      background: repeating-conic-gradient(var(--gold) 0% 25%, transparent 0% 50%) 50%/20px 20px;
+      border-radius: 50%;
+      animation: spin 90s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .auspicious-shloka {
+      font-family: 'Marcellus', serif;
+      color: var(--light-gold);
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+    }
+
+    .ampersand {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--light-gold);
+      display: block;
+      margin: -10px 0;
+    }
+
+    .date-venue-tag {
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      color: #E2D3B3;
+    }
+
+    /* Countdown Timer */
+    .timer-container {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 2.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .timer-box {
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
+      padding: 0.75rem 1.2rem;
+      border-radius: 6px;
+      min-width: 75px;
+    }
+
+    .timer-box span {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--gold);
+      font-family: 'Marcellus', serif;
+    }
+
+    .timer-box label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--warm-ivory);
+    }
+
+    /* General Section Styling */
+    section {
+      padding: 5rem 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-heading {
+      font-family: 'Marcellus', serif;
+      font-size: 2.2rem;
+      color: var(--primary-maroon);
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .section-ornament {
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    /* Itinerary Timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .timeline-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 2.5rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timeline-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(91, 14, 27, 0.08);
+    }
+
+    .event-title {
+      font-family: 'Marcellus', serif;
+      color: var(--primary-maroon);
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
+
+    .event-time {
+      color: var(--accent-terracotta);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* RSVP Form */
+    .rsvp-wrapper {
+      background: #FFFFFF;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 12px 35px rgba(91, 14, 27, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.85rem;
+      border: 1px solid #D5CEBF;
+      border-radius: 4px;
+      background-color: var(--warm-ivory);
+      font-family: inherit;
+      color: var(--text-dark);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-maroon);
+      color: var(--warm-ivory);
+      border: 1px solid var(--gold);
+      font-family: 'Marcellus', serif;
+      font-size: 1rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background: var(--deep-crimson);
+    }
+
+    #rsvpMessage {
+      display: none;
+      margin-top: 1.2rem;
+      padding: 1rem;
+      background: #E8F5E9;
+      color: #2E7D32;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    footer {
+      background: var(--deep-crimson);
+      color: var(--light-gold);
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-family: 'Marcellus', serif;
+      letter-spacing: 1px;
+      border-top: 2px solid var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="letter-overlay" aria-hidden="false">
+    <div class="letter-envelope">
+      <div class="letter-paper">
+        <p class="letter-kicker">By owl post</p>
+        <h1 class="letter-heading">You are invited</h1>
+        <p class="letter-copy">A celebration awaits Shubham &amp; Anusha.<br>Open this letter to reveal the details.</p>
+      </div>
+      <div class="letter-flap"></div>
+      <div class="letter-seal" aria-hidden="true">S &amp; A</div>
+      <button class="letter-prompt" type="button">Open the Letter</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="mandala-bg"></div>
+    <p class="auspicious-shloka reveal">|| Shree Ganeshay Namah ||</p>
+    <p class="auspicious-shloka reveal" style="letter-spacing: 3px; font-size: 0.9rem;">TOGETHER WITH OUR FAMILIES</p>
+    
+    <h1 class="hero-title reveal">Shubham Naik</h1>
+    <span class="ampersand reveal">&amp;</span>
+    <h1 class="hero-title reveal">Anusha Gupta</h1>
+    
+    <p class="date-venue-tag reveal">December 2, 2026 &bull; Pune, Maharashtra</p>
+
+    <div class="timer-container reveal" id="countdown">
+      <div class="timer-box"><span id="days">00</span><label>Days</label></div>
+      <div class="timer-box"><span id="hours">00</span><label>Hours</label></div>
+      <div class="timer-box"><span id="mins">00</span><label>Mins</label></div>
+      <div class="timer-box"><span id="secs">00</span><label>Secs</label></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="reveal">
+      <h2 class="section-heading">The Celebration</h2>
+      <span class="section-ornament">&#10070; &#10070; &#10070;</span>
+      <p style="max-width: 650px; margin: 0 auto; color: #4A3E39;">
+        We invite you to join us in celebrating our union. Your presence, love, and blessings 
+        will make our special days memorable as we begin this new chapter together.
+      </p>
+    </div>
+  </section>
+
+  <section style="background: rgba(212, 175, 55, 0.03); max-width: 100%;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h2 class="section-heading reveal">Auspicious Events</h2>
+      <span class="section-ornament reveal">&#9670;</span>
+      
+      <div class="timeline">
+        <div class="timeline-card reveal">
+          <span style="font-size: 1.8rem;">&#x1F33C;</span>
+          <h3 class="event-title">Haldi &amp; Mehendi</h3>
+          <p class="event-time">Nov 27, 2026 | 11:00 AM onwards</p>
+          <p style="font-size: 0.9rem; color: #666;">A morning of turmeric, henna patterns, festive folk beats, and traditional lunch.</p>
+        </div>
+
+        <div class="timeline-card reveal">
+          <span style="font-size: 1.8rem;">&#x1F3B6;</span>
+          <h3 class="event-title">Sangeet Night</h3>
+          <p class="event-time">Nov 27, 2026 | 7:00 PM onwards</p>
+          <p style="font-size: 0.9rem; color: #666;">An evening filled with dance performances, cocktails, dinner, and celebrations.</p>
+        </div>
+
+        <div class="timeline-card reveal">
+          <span style="font-size: 1.8rem;">&#x1F549;</span>
+          <h3 class="event-title">Wedding Ceremony</h3>
+          <p class="event-time">Dec 2, 2026 | 10:30 AM Muhurat</p>
+          <p style="font-size: 0.9rem; color: #666;">Baraat arrival followed by the sacred Pheras and traditional lunch reception.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="reveal">
+      <h2 class="section-heading">Venue &amp; Location</h2>
+      <span class="section-ornament">&#10070;</span>
+      <p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.4rem;">The Grand Heritage Palace</p>
+      <p style="color: #666; margin-bottom: 2rem;">Senapati Bapat Road, Pune, Maharashtra 411016</p>
+      
+      <div style="width: 100%; height: 350px; border-radius: 8px; overflow: hidden; border: 1px solid #D4AF37;">
+        <iframe 
+          title="Venue Location"
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          style="border:0;" 
+          loading="lazy" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.977239714856!2d73.82914197592477!3d18.530364968886915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf760e58603b%3A0x8e8eb43e1d1f5e8f!2sJW%20Marriott%20Hotel%20Pune!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-heading reveal">RSVP</h2>
+    <span class="section-ornament reveal">&#9670;</span>
+
+    <div class="rsvp-wrapper reveal">
+      <form id="weddingRsvp">
+        <div class="form-group">
+          <label for="name">Guest Name(s)</label>
+          <input type="text" id="name" required placeholder="e.g., Rajesh Sharma">
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Phone Number or Email</label>
+          <input type="text" id="contact" required placeholder="+91 98765 43210">
+        </div>
+
+        <div class="form-group">
+          <label for="attendance">Will you be attending?</label>
+          <select id="attendance" required>
+            <option value="Yes">Joyfully Accept</option>
+            <option value="No">Regretfully Decline</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="guests">Number of Guests Attending</label>
+          <select id="guests">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4+">4 or more</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Warm Wishes / Notes</label>
+          <textarea id="message" rows="3" placeholder="Leave a message for Shubham and Anusha..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Confirm Attendance</button>
+      </form>
+      <div id="rsvpMessage">Thank you! Your response has been received.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>With Warm Regards from the Naik &amp; Gupta Families</p>
+    <p style="font-size: 0.8rem; margin-top: 0.4rem; opacity: 0.8;">#ShubhamWedsAnusha</p>
+  </footer>
+
+  <script>
+    // 1. Scroll Triggered Animation Observer
+    const letterOverlay = document.querySelector('.letter-overlay');
+    const letterPrompt = document.querySelector('.letter-prompt');
+
+    letterPrompt.addEventListener('click', () => {
+      letterOverlay.classList.add('is-open');
+      letterOverlay.setAttribute('aria-hidden', 'true');
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -40px 0px"
+    });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // 2. Dynamic Countdown Clock
+    const targetDate = new Date("December 2, 2026 10:30:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = String(days).padStart(2, '0');
+        document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("mins").innerText = String(mins).padStart(2, '0');
+        document.getElementById("secs").innerText = String(secs).padStart(2, '0');
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 3. Simple Client RSVP Handling
+    document.getElementById('weddingRsvp').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('rsvpMessage').style.display = 'block';
+      this.reset();
+    });
+  </script>
+</body>
+</html>
