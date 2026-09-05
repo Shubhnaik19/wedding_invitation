@@ -340,6 +340,11 @@
         overflow-wrap: anywhere;
       }
 
+      .hero-ganesha {
+        width: 58px;
+        margin: 0.1rem auto 0.25rem;
+      }
+
       .date-venue-tag {
         max-width: 290px;
         font-size: 0.8rem;
@@ -478,6 +483,15 @@
       color: var(--light-gold);
       display: block;
       margin: -10px 0;
+    }
+
+    .hero-ganesha {
+      display: block;
+      width: clamp(56px, 9vw, 84px);
+      height: auto;
+      margin: 0.2rem auto 0.4rem;
+      opacity: 0.9;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
     }
 
     .date-venue-tag {
@@ -711,6 +725,7 @@
     
     <h1 class="hero-title reveal">Shubham Naik</h1>
     <span class="ampersand reveal">&amp;</span>
+    <img class="hero-ganesha reveal" src="ganesha.png" alt="Ganesha" />
     <h1 class="hero-title reveal">Anusha Gupta</h1>
     
     <p class="date-venue-tag reveal">December 2, 2026 &bull; Jabalpur, Madhya Pradesh</p>
