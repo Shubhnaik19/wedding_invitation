@@ -61,10 +61,26 @@
     .letter-overlay::before {
       content: '';
       position: absolute;
-      inset: 0;
+      top: 1.5rem;
+      left: 1.5rem;
+      width: min(30vw, 220px);
+      height: min(30vw, 220px);
       z-index: 0;
-      background: url('ganesha.png') center 8% / min(54vw, 360px) auto no-repeat;
-      opacity: 0.32;
+      background: url('ganesha.png') center / contain no-repeat;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .letter-overlay::after {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: min(30vw, 220px);
+      height: min(30vw, 220px);
+      z-index: 0;
+      background: url('ganesha.png') center / contain no-repeat;
+      opacity: 0.3;
       pointer-events: none;
     }
 
@@ -248,8 +264,18 @@
       }
 
       .letter-overlay::before {
-        background-size: min(62vw, 260px) auto;
-        background-position: center 5%;
+        top: 0.75rem;
+        left: 0.75rem;
+        width: min(26vw, 110px);
+        height: min(26vw, 110px);
+        opacity: 0.24;
+      }
+
+      .letter-overlay::after {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: min(26vw, 110px);
+        height: min(26vw, 110px);
         opacity: 0.24;
       }
 
