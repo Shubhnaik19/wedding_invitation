@@ -40,6 +40,11 @@
       line-height: 1.6;
     }
 
+    body.letter-locked {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body > *:not(.flower-rain) {
       position: relative;
       z-index: 1;
@@ -929,7 +934,7 @@
     }
   </style>
 </head>
-<body>
+<body class="letter-locked">
 
   <div class="flower-rain" aria-hidden="true"></div>
 
@@ -1130,6 +1135,8 @@
     letterPrompt.addEventListener('click', () => {
       letterOverlay.classList.add('is-open');
       letterOverlay.setAttribute('aria-hidden', 'true');
+      window.scrollTo(0, 0);
+      document.body.classList.remove('letter-locked');
     });
 
     const revealElements = document.querySelectorAll('.reveal');
