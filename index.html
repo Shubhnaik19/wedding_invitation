@@ -40,6 +40,48 @@
       line-height: 1.6;
     }
 
+    body > *:not(.flower-rain) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .flower-rain {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .falling-flower {
+      position: absolute;
+      top: -2rem;
+      left: var(--flower-left);
+      color: var(--flower-color);
+      font-size: var(--flower-size);
+      line-height: 1;
+      opacity: 0;
+      animation: flower-fall var(--flower-duration) linear var(--flower-delay) infinite;
+      filter: drop-shadow(0 2px 2px rgba(91, 14, 27, 0.12));
+    }
+
+    @keyframes flower-fall {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -5vh, 0) rotate(0deg);
+      }
+      12% {
+        opacity: 0.72;
+      }
+      88% {
+        opacity: 0.72;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--flower-drift), 110vh, 0) rotate(360deg);
+      }
+    }
+
     .letter-overlay {
       position: fixed;
       inset: 0;
@@ -250,6 +292,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .flower-rain {
+        display: none;
+      }
+
       .letter-overlay,
       .letter-paper,
       .letter-flap,
@@ -881,6 +927,8 @@
 </head>
 <body>
 
+  <div class="flower-rain" aria-hidden="true"></div>
+
   <div class="letter-overlay" aria-hidden="false">
     <div class="letter-envelope">
       <div class="letter-paper">
@@ -1054,6 +1102,23 @@
   </footer>
 
   <script>
+    const flowerRain = document.querySelector('.flower-rain');
+    const flowerSymbols = ['✿', '❀', '❁', '✾'];
+    const flowerColors = ['#D4AF37', '#A8422B', '#C75B6A', '#E6B84A', '#B83247'];
+
+    for (let index = 0; index < 20; index += 1) {
+      const flower = document.createElement('span');
+      flower.className = 'falling-flower';
+      flower.textContent = flowerSymbols[index % flowerSymbols.length];
+      flower.style.setProperty('--flower-left', `${(index * 37) % 100}%`);
+      flower.style.setProperty('--flower-size', `${0.7 + (index % 4) * 0.18}rem`);
+      flower.style.setProperty('--flower-duration', `${12 + (index % 6) * 1.6}s`);
+      flower.style.setProperty('--flower-delay', `${-((index * 1.7) % 14)}s`);
+      flower.style.setProperty('--flower-drift', `${-55 + (index % 7) * 18}px`);
+      flower.style.setProperty('--flower-color', flowerColors[index % flowerColors.length]);
+      flowerRain.appendChild(flower);
+    }
+
     // 1. Scroll Triggered Animation Observer
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
