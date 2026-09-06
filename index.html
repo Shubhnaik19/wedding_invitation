@@ -416,6 +416,18 @@
         padding: 0.35rem 0;
       }
 
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .photo-placeholder:last-child {
+        grid-column: 1 / -1;
+      }
+
       .rsvp-wrapper {
         padding: 2rem 1rem;
       }
@@ -693,6 +705,98 @@
       text-decoration: underline;
     }
 
+    /* Pre-wedding Media */
+    .prewedding-media {
+      max-width: 100%;
+      background: rgba(212, 175, 55, 0.04);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 2rem auto 0;
+      text-align: left;
+    }
+
+    .video-placeholder,
+    .photo-placeholder {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(244, 228, 186, 0.16), transparent 30%),
+        linear-gradient(145deg, var(--deep-crimson), var(--primary-maroon));
+      color: var(--light-gold);
+      box-shadow: 0 12px 28px rgba(91, 14, 27, 0.12);
+    }
+
+    .video-placeholder {
+      min-height: 320px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .video-placeholder::before {
+      content: '\25B6';
+      display: grid;
+      place-items: center;
+      width: 66px;
+      height: 66px;
+      margin-bottom: 1rem;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 1.7rem;
+    }
+
+    .media-placeholder-title {
+      font-family: 'Marcellus', serif;
+      font-size: 1.25rem;
+      color: var(--warm-ivory);
+    }
+
+    .media-placeholder-copy {
+      max-width: 300px;
+      margin-top: 0.4rem;
+      color: var(--light-gold);
+      font-size: 0.85rem;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 4 / 3;
+      min-height: 130px;
+      padding: 1rem;
+      background:
+        linear-gradient(rgba(91, 14, 27, 0.2), rgba(91, 14, 27, 0.2)),
+        url('ganesha.png') center / 110px auto no-repeat,
+        var(--parchment);
+      color: var(--primary-maroon);
+      font-family: 'Marcellus', serif;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .photo-placeholder span {
+      padding: 0.35rem 0.55rem;
+      background: rgba(255, 253, 249, 0.82);
+    }
+
+    @media (max-width: 600px) {
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* RSVP Form */
     .rsvp-wrapper {
       background: #FFFFFF;
@@ -833,9 +937,9 @@
       <div class="timeline">
         <div class="timeline-card reveal">
           <span style="font-size: 1.8rem;">&#x1F33C;</span>
-          <h3 class="event-title">Haldi &amp; Mehendi</h3>
-          <p class="event-time">Dec 1, 2026 | 11:00 AM onwards</p>
-          <p style="font-size: 0.9rem; color: #666;">A morning of turmeric, henna patterns, festive folk beats, and traditional lunch.</p>
+          <h3 class="event-title">Haldi</h3>
+          <p class="event-time">Dec 1, 2026 | 02:00 AM onwards</p>
+          <p style="font-size: 0.9rem; color: #666;">A morning of turmeric festive folk beats.</p>
           <a class="event-location" href="https://maps.app.goo.gl/cgjefLeXNUwjJAGG9" target="_blank" rel="noopener noreferrer">&#128205; View location</a>
         </div>
 
@@ -874,6 +978,28 @@
       <p style="color: #666; margin-bottom: 1rem;">Jabalpur, Madhya Pradesh</p>
       
       <a class="event-location" href="https://maps.app.goo.gl/cgjefLeXNUwjJAGG9" target="_blank" rel="noopener noreferrer">&#128205; Open Hilton Garden Inn Jabalpur in Google Maps</a>
+    </div>
+  </section>
+
+  <section class="prewedding-media">
+    <div class="reveal">
+      <h2 class="section-heading">Pre-Wedding Memories</h2>
+      <span class="section-ornament">&#10070;</span>
+
+      <div class="media-grid">
+        <div class="video-placeholder" aria-label="Pre-wedding video placeholder">
+          <div>
+            <p class="media-placeholder-title">Pre-Wedding Video</p>
+            <p class="media-placeholder-copy">Our story in motion will be added here soon.</p>
+          </div>
+        </div>
+
+        <div class="photo-grid" aria-label="Pre-wedding photo placeholders">
+          <div class="photo-placeholder"><span>Photo coming soon</span></div>
+          <div class="photo-placeholder"><span>Photo coming soon</span></div>
+          <div class="photo-placeholder"><span>Photo coming soon</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
