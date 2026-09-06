@@ -639,13 +639,13 @@
 
     .shower-section > *:not(.section-flower-shower) {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .section-flower-shower {
       position: absolute;
       inset: 0;
-      z-index: 0;
+      z-index: 1;
       overflow: hidden;
       pointer-events: none;
     }
@@ -665,14 +665,16 @@
     @keyframes section-flower-fall {
       0% {
         opacity: 0;
-        transform: translate3d(0, -1rem, 0) rotate(0deg);
+        top: -1.5rem;
+        transform: translate3d(0, 0, 0) rotate(0deg);
       }
       15%, 82% {
-        opacity: 0.5;
+        opacity: 0.85;
       }
       100% {
         opacity: 0;
-        transform: translate3d(var(--flower-drift), 115%, 0) rotate(240deg);
+        top: 110%;
+        transform: translate3d(var(--flower-drift), 0, 0) rotate(240deg);
       }
     }
 
@@ -974,7 +976,7 @@
   </header>
 
   <section class="shower-section celebration-section">
-    <div class="section-flower-shower" data-flower-count="10" aria-hidden="true"></div>
+    <div class="section-flower-shower" data-flower-count="18" aria-hidden="true"></div>
     <div class="reveal">
       <h2 class="section-heading">The Celebration</h2>
       <span class="section-ornament">&#10070; &#10070; &#10070;</span>
@@ -986,7 +988,7 @@
   </section>
 
   <section class="shower-section events-section" style="background: rgba(212, 175, 55, 0.03); max-width: 100%;">
-    <div class="section-flower-shower" data-flower-count="16" aria-hidden="true"></div>
+    <div class="section-flower-shower" data-flower-count="24" aria-hidden="true"></div>
     <div style="max-width: 1000px; margin: 0 auto;">
       <h2 class="section-heading reveal">Auspicious Events</h2>
       <span class="section-ornament reveal">&#9670;</span>
@@ -1122,9 +1124,9 @@
         flower.className = 'section-flower';
         flower.textContent = sectionFlowerSymbols[index % sectionFlowerSymbols.length];
         flower.style.setProperty('--flower-left', `${(index * 47 + showerIndex * 13) % 100}%`);
-        flower.style.setProperty('--flower-size', `${0.65 + (index % 4) * 0.16}rem`);
-        flower.style.setProperty('--flower-duration', `${7 + (index % 5) * 1.2}s`);
-        flower.style.setProperty('--flower-delay', `${-((index * 1.3) % 8)}s`);
+        flower.style.setProperty('--flower-size', `${0.8 + (index % 4) * 0.2}rem`);
+        flower.style.setProperty('--flower-duration', `${8 + (index % 5) * 1.2}s`);
+        flower.style.setProperty('--flower-delay', `${-((index * 1.9) % 9)}s`);
         flower.style.setProperty('--flower-drift', `${-28 + (index % 5) * 14}px`);
         flower.style.setProperty('--flower-color', sectionFlowerColors[index % sectionFlowerColors.length]);
         shower.appendChild(flower);
