@@ -632,6 +632,56 @@
       text-align: center;
     }
 
+    .shower-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shower-section > *:not(.section-flower-shower) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-flower-shower {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .section-flower {
+      position: absolute;
+      top: -1.5rem;
+      left: var(--flower-left);
+      color: var(--flower-color);
+      font-size: var(--flower-size);
+      line-height: 1;
+      opacity: 0;
+      animation: section-flower-fall var(--flower-duration) linear var(--flower-delay) infinite;
+      filter: drop-shadow(0 2px 2px rgba(91, 14, 27, 0.12));
+    }
+
+    @keyframes section-flower-fall {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -1rem, 0) rotate(0deg);
+      }
+      15%, 82% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--flower-drift), 115%, 0) rotate(240deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .section-flower-shower {
+        display: none;
+      }
+    }
+
     .section-heading {
       font-family: 'Marcellus', serif;
       font-size: 2.2rem;
@@ -923,7 +973,8 @@
     </div>
   </header>
 
-  <section>
+  <section class="shower-section celebration-section">
+    <div class="section-flower-shower" data-flower-count="10" aria-hidden="true"></div>
     <div class="reveal">
       <h2 class="section-heading">The Celebration</h2>
       <span class="section-ornament">&#10070; &#10070; &#10070;</span>
@@ -934,7 +985,8 @@
     </div>
   </section>
 
-  <section style="background: rgba(212, 175, 55, 0.03); max-width: 100%;">
+  <section class="shower-section events-section" style="background: rgba(212, 175, 55, 0.03); max-width: 100%;">
+    <div class="section-flower-shower" data-flower-count="16" aria-hidden="true"></div>
     <div style="max-width: 1000px; margin: 0 auto;">
       <h2 class="section-heading reveal">Auspicious Events</h2>
       <span class="section-ornament reveal">&#9670;</span>
@@ -1059,6 +1111,26 @@
   </footer>
 
   <script>
+    const sectionFlowerSymbols = ['\u2740', '\u2740', '\u273F', '\u2741'];
+    const sectionFlowerColors = ['#D4AF37', '#A8422B', '#C75B6A', '#E6B84A'];
+
+    document.querySelectorAll('.section-flower-shower').forEach((shower, showerIndex) => {
+      const flowerCount = Number(shower.dataset.flowerCount);
+
+      for (let index = 0; index < flowerCount; index += 1) {
+        const flower = document.createElement('span');
+        flower.className = 'section-flower';
+        flower.textContent = sectionFlowerSymbols[index % sectionFlowerSymbols.length];
+        flower.style.setProperty('--flower-left', `${(index * 47 + showerIndex * 13) % 100}%`);
+        flower.style.setProperty('--flower-size', `${0.65 + (index % 4) * 0.16}rem`);
+        flower.style.setProperty('--flower-duration', `${7 + (index % 5) * 1.2}s`);
+        flower.style.setProperty('--flower-delay', `${-((index * 1.3) % 8)}s`);
+        flower.style.setProperty('--flower-drift', `${-28 + (index % 5) * 14}px`);
+        flower.style.setProperty('--flower-color', sectionFlowerColors[index % sectionFlowerColors.length]);
+        shower.appendChild(flower);
+      }
+    });
+
     // 1. Scroll Triggered Animation Observer
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
