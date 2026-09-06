@@ -256,6 +256,15 @@
       .letter-seal {
         transition-duration: 0.01s;
       }
+
+      .hero-trumpet {
+        animation: none;
+        transform: translateX(0) scaleX(1);
+      }
+
+      .hero-trumpet-right {
+        transform: translateX(0) scaleX(-1);
+      }
     }
 
     @media (max-width: 600px) {
@@ -466,6 +475,16 @@
       100% { transform: rotate(360deg); }
     }
 
+    @keyframes trumpet-enter-left {
+      from { transform: translateX(-120%) scaleX(1); }
+      to { transform: translateX(0) scaleX(1); }
+    }
+
+    @keyframes trumpet-enter-right {
+      from { transform: translateX(120%) scaleX(-1); }
+      to { transform: translateX(0) scaleX(-1); }
+    }
+
     .auspicious-shloka {
       font-family: 'Marcellus', serif;
       color: var(--light-gold);
@@ -517,16 +536,34 @@
       opacity: 0.9;
       pointer-events: none;
       filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.25));
+      animation-play-state: paused;
     }
 
     .hero-trumpet-left {
       left: 0;
       transform: scaleX(1);
+      animation: trumpet-enter-left 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both paused;
     }
 
     .hero-trumpet-right {
       right: 0;
       transform: scaleX(-1);
+      animation: trumpet-enter-right 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both paused;
+    }
+
+    .letter-overlay.is-open + .hero .hero-trumpet {
+      animation-play-state: running;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-trumpet {
+        animation: none;
+        transform: translateX(0) scaleX(1);
+      }
+
+      .hero-trumpet-right {
+        transform: translateX(0) scaleX(-1);
+      }
     }
 
     .date-venue-tag {
