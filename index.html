@@ -349,11 +349,6 @@
         gap: 0.5rem;
       }
 
-      .hero-welcome::before,
-      .hero-welcome::after {
-        font-size: 1.35rem;
-      }
-
       .date-venue-tag {
         max-width: 290px;
         font-size: 0.8rem;
@@ -444,6 +439,7 @@
     /* Hero Section */
     .hero {
       position: relative;
+      overflow: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -512,18 +508,24 @@
       margin: 0 auto;
     }
 
-    .hero-welcome::before,
-    .hero-welcome::after {
-      content: '\1F3BA';
-      display: block;
-      color: var(--gold);
-      font-size: clamp(1.7rem, 4vw, 2.5rem);
-      line-height: 1;
-      filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+    .hero-trumpet {
+      position: absolute;
+      top: clamp(0.75rem, 2vw, 1.5rem);
+      z-index: 1;
+      width: clamp(110px, 20vw, 260px);
+      height: auto;
+      opacity: 0.9;
+      pointer-events: none;
+      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.25));
     }
 
-    .hero-welcome::before {
+    .hero-trumpet-left {
+      left: 0;
       transform: scaleX(-1);
+    }
+
+    .hero-trumpet-right {
+      right: 0;
     }
 
     .date-venue-tag {
@@ -751,6 +753,8 @@
   </div>
 
   <header class="hero">
+    <img class="hero-trumpet hero-trumpet-left" src="trumpet.jpeg" alt="" aria-hidden="true" />
+    <img class="hero-trumpet hero-trumpet-right" src="trumpet.jpeg" alt="" aria-hidden="true" />
     <div class="mandala-bg"></div>
     <p class="auspicious-shloka reveal">|| Shree Ganeshay Namah ||</p>
     <p class="auspicious-shloka reveal" style="letter-spacing: 3px; font-size: 0.9rem;">TOGETHER WITH OUR FAMILIES</p>
