@@ -1036,7 +1036,7 @@
   </style>
 </head>
 <body class="letter-locked">
-  <audio id="bg-music" loop preload="auto" aria-label="Background music">
+  <audio id="bg-music" autoplay loop preload="auto" aria-label="Background music">
     <source src="shehnai.mp3" type="audio/mpeg" />
   </audio>
 
@@ -1251,33 +1251,18 @@
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
     const bgMusic = document.getElementById('bg-music');
-    let bgMusicLoadRequested = false;
-
     function playBackgroundMusic() {
       bgMusic.play().catch(() => {
         // Browsers may block autoplay until the user interacts.
       });
     }
 
-    function startBackgroundMusic(userInitiated = false) {
+    function startBackgroundMusic() {
       if (!bgMusic) return;
 
       bgMusic.volume = 0.35;
       bgMusic.muted = false;
-      if (bgMusic.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        playBackgroundMusic();
-        return;
-      }
-
-      if (!bgMusicLoadRequested) {
-        bgMusicLoadRequested = true;
-        bgMusic.addEventListener('loadedmetadata', playBackgroundMusic, { once: true });
-        bgMusic.load();
-      }
-
-      if (userInitiated) {
-        playBackgroundMusic();
-      }
+      playBackgroundMusic();
     }
 
     letterPrompt.addEventListener('click', () => {
@@ -1285,6 +1270,7 @@
       letterOverlay.setAttribute('aria-hidden', 'true');
       window.scrollTo(0, 0);
       document.body.classList.remove('letter-locked');
+      startBackgroundMusic();
     });
 
     startBackgroundMusic();
