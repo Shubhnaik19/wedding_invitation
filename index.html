@@ -708,15 +708,9 @@
       transition: opacity 0.25s ease;
     }
 
-    .scroll-cue.is-hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
     .scroll-cue:hover,
     .scroll-cue:focus-visible {
-      opacity: 1;
+      opacity: 0.85;
       outline: none;
     }
 
@@ -727,20 +721,21 @@
       height: 2rem;
       border: 1px solid rgba(244, 228, 186, 0.9);
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(61, 5, 14, 0.42);
       box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.25);
       font-size: 1.1rem;
       line-height: 1;
+      text-shadow: 0 1px 4px rgba(61, 5, 14, 0.85);
     }
 
     @keyframes scroll-bounce {
       0%, 100% {
         transform: translateX(-50%) translateY(0);
-        opacity: 0.7;
+        opacity: 0.45;
       }
       50% {
         transform: translateX(-50%) translateY(9px);
-        opacity: 1;
+        opacity: 0.65;
       }
     }
 
@@ -1226,7 +1221,7 @@
       <div class="timer-box"><span id="secs">00</span><label>Secs</label></div>
     </div>
 
-    <div class="scroll-cue reveal is-hidden" aria-label="Scroll down to the celebration details" tabindex="0" role="button">
+    <div class="scroll-cue" aria-label="Scroll down to the celebration details" tabindex="0" role="button">
       <span>Scroll</span>
       <span class="scroll-arrow" aria-hidden="true">↓</span>
     </div>
@@ -1500,10 +1495,7 @@
     const heroObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          scrollCue.classList.remove('is-hidden');
           replayHeroTrumpets();
-        } else {
-          scrollCue.classList.add('is-hidden');
         }
       });
     }, { threshold: 0.01 });
