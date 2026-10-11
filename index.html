@@ -688,10 +688,10 @@
     }
 
     .scroll-cue {
-      position: absolute;
+      position: fixed;
       left: 50%;
-      bottom: 1.25rem;
-      z-index: 2;
+      bottom: max(1.25rem, env(safe-area-inset-bottom));
+      z-index: 20;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -706,6 +706,12 @@
       cursor: pointer;
       animation: scroll-bounce 1.8s ease-in-out infinite;
       transition: opacity 0.25s ease;
+    }
+
+    .scroll-cue.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .scroll-cue:hover,
@@ -1220,7 +1226,7 @@
       <div class="timer-box"><span id="secs">00</span><label>Secs</label></div>
     </div>
 
-    <div class="scroll-cue reveal" aria-label="Scroll down to the celebration details" tabindex="0" role="button">
+    <div class="scroll-cue reveal is-hidden" aria-label="Scroll down to the celebration details" tabindex="0" role="button">
       <span>Scroll</span>
       <span class="scroll-arrow" aria-hidden="true">↓</span>
     </div>
@@ -1494,10 +1500,13 @@
     const heroObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          scrollCue.classList.remove('is-hidden');
           replayHeroTrumpets();
+        } else {
+          scrollCue.classList.add('is-hidden');
         }
       });
-    }, { threshold: 0.35 });
+    }, { threshold: 0.01 });
     heroObserver.observe(heroSection);
 
     // 2. Dynamic Countdown Clock
