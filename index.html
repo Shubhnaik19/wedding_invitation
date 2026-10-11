@@ -1036,8 +1036,8 @@
   </style>
 </head>
 <body class="letter-locked">
-  <audio id="bg-music" preload="auto" aria-label="Background music">
-    <source src="song.mp3" type="audio/mpeg" />
+  <audio id="bg-music" loop preload="auto" aria-label="Background music">
+    <source src="shehnai.mp3" type="audio/mpeg" />
   </audio>
 
   <div class="letter-overlay" aria-hidden="false">
@@ -1251,17 +1251,13 @@
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
     const bgMusic = document.getElementById('bg-music');
-    const bgMusicStartTime = 105;
     let bgMusicLoadRequested = false;
 
-    function playBackgroundMusicFromCue() {
-      bgMusic.currentTime = bgMusicStartTime;
+    function playBackgroundMusic() {
       bgMusic.play().catch(() => {
         // Browsers may block autoplay until the user interacts.
       });
     }
-
-    bgMusic.addEventListener('ended', playBackgroundMusicFromCue);
 
     function startBackgroundMusic(userInitiated = false) {
       if (!bgMusic) return;
@@ -1269,21 +1265,18 @@
       bgMusic.volume = 0.35;
       bgMusic.muted = false;
       if (bgMusic.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        playBackgroundMusicFromCue();
+        playBackgroundMusic();
         return;
       }
 
       if (!bgMusicLoadRequested) {
         bgMusicLoadRequested = true;
-        bgMusic.addEventListener('loadedmetadata', playBackgroundMusicFromCue, { once: true });
+        bgMusic.addEventListener('loadedmetadata', playBackgroundMusic, { once: true });
         bgMusic.load();
       }
 
       if (userInitiated) {
-        bgMusic.currentTime = bgMusicStartTime;
-        bgMusic.play().catch(() => {
-          // Browsers may block autoplay until the user interacts.
-        });
+        playBackgroundMusic();
       }
     }
 
