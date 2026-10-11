@@ -403,6 +403,7 @@
         grid-template-columns: 1fr;
         gap: 1rem;
         margin-top: 1.5rem;
+        max-width: 420px;
       }
 
       .timeline-card {
@@ -758,12 +759,20 @@
     /* Itinerary Timeline */
     .timeline {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+      gap: clamp(1rem, 3vw, 2rem);
       margin-top: 2rem;
+      max-width: 900px;
+      margin-inline: auto;
     }
 
     .timeline-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 0;
       background: #FFFFFF;
       border: 1px solid rgba(212, 175, 55, 0.3);
       padding: 2.5rem 1.5rem;
@@ -805,7 +814,8 @@
 
     .event-location {
       display: inline-block;
-      margin-top: 1rem;
+      margin-top: auto;
+      padding-top: 1rem;
       color: var(--primary-maroon);
       font-size: 0.85rem;
       font-weight: 600;
@@ -816,6 +826,15 @@
     .event-location:focus-visible {
       color: var(--accent-terracotta);
       text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .timeline {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+        max-width: 420px;
+        margin-top: 1.5rem;
+      }
     }
 
     /* Pre-wedding Media */
@@ -993,6 +1012,29 @@
       margin-top: 1.5rem;
     }
 
+    .contact-qr {
+      margin: 2rem auto 0;
+      text-align: center;
+    }
+
+    .contact-qr figcaption {
+      margin-bottom: 0.9rem;
+      color: var(--primary-maroon);
+      font-family: 'Marcellus', serif;
+      font-size: 1.1rem;
+    }
+
+    .contact-qr img {
+      display: block;
+      width: min(100%, 340px);
+      height: auto;
+      margin: 0 auto;
+      border: 6px solid #FFFFFF;
+      border-radius: 6px;
+      background: #FFFFFF;
+      box-shadow: 0 8px 22px rgba(91, 14, 27, 0.12);
+    }
+
     .contact-link {
       display: inline-flex;
       align-items: center;
@@ -1049,7 +1091,7 @@
       </div>
       <div class="letter-flap"></div>
       <div class="letter-seal" aria-hidden="true">S &amp; A</div>
-      <button class="letter-prompt" type="button">Open the Letter</button>
+      <button class="letter-prompt" type="button">Open the Letter </button>
     </div>
   </div>
 
@@ -1082,7 +1124,7 @@
     <img class="celebration-sticker left" src="Smiling Indian Bride in Namaste Pose.png" alt="Bride in a traditional wedding outfit" />
     <img class="celebration-sticker right" src="Traditional Indian Groom in Namaste Pose.png" alt="Groom in a traditional wedding outfit" />
     <div class="reveal">
-      <h2 class="section-heading">The Celebration</h2>
+      <h2 class="section-heading">Wedding Celebration</h2>
       <span class="section-ornament">&#10070; &#10070; &#10070;</span>
       <p style="max-width: 650px; margin: 0 auto; color: #4A3E39;">
         We invite you to join us in celebrating our union. Your presence, love, and blessings 
@@ -1101,7 +1143,7 @@
         <div class="timeline-card reveal">
           <span style="font-size: 1.8rem;">&#x1F33C;</span>
           <h3 class="event-title">Haldi</h3>
-          <p class="event-time">Dec 1, 2026 | 02:00 AM onwards</p>
+          <p class="event-time">Dec 1, 2026 | 02:00 PM onwards</p>
           <p style="font-size: 0.9rem; color: #666;">A morning of turmeric festive folk beats.</p>
           <a class="event-location" href="https://maps.app.goo.gl/cgjefLeXNUwjJAGG9" target="_blank" rel="noopener noreferrer">&#128205; View location</a>
         </div>
@@ -1170,10 +1212,6 @@
             <span>Joy</span>
           </div>
           <div class="photo-placeholder">
-            <img src="DSC06179.JPG" alt="Pre-wedding memory 5" />
-            <span>Us</span>
-          </div>
-          <div class="photo-placeholder">
             <img src="DSC_2266.JPG" alt="Pre-wedding memory 6" />
             <span>Always</span>
           </div>
@@ -1192,10 +1230,6 @@
           <div class="photo-placeholder">
             <img src="DSC05390.JPG" alt="Pre-wedding memory 4 duplicate" />
             <span>Joy</span>
-          </div>
-          <div class="photo-placeholder">
-            <img src="DSC06179.JPG" alt="Pre-wedding memory 5 duplicate" />
-            <span>Us</span>
           </div>
           <div class="photo-placeholder">
             <img src="DSC_2266.JPG" alt="Pre-wedding memory 6 duplicate" />
@@ -1219,6 +1253,10 @@
         <span>snusha1927@gmail.com</span>
       </a>
     </div>
+    <figure class="contact-qr reveal">
+      <figcaption>Scan code to send wishes</figcaption>
+      <img src="IMG-20261011-WA0012~2.jpg" alt="WhatsApp QR code for Shubham Naik. Scan to send wishes." loading="lazy" />
+    </figure>
   </section>
 
   <footer>
@@ -1266,11 +1304,11 @@
     }
 
     letterPrompt.addEventListener('click', () => {
+      startBackgroundMusic();
       letterOverlay.classList.add('is-open');
       letterOverlay.setAttribute('aria-hidden', 'true');
       window.scrollTo(0, 0);
       document.body.classList.remove('letter-locked');
-      startBackgroundMusic();
     });
 
     startBackgroundMusic();
