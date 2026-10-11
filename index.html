@@ -336,9 +336,29 @@
         padding: 4rem 1rem 2.5rem;
       }
 
+      .hero > *:not(.hero-trumpet):not(.mandala-bg) {
+        position: relative;
+        z-index: 2;
+      }
+
       .mandala-bg {
         width: min(125vw, 440px);
         height: min(125vw, 440px);
+      }
+
+      .hero-trumpet {
+        top: 0.7rem;
+        width: clamp(72px, 18vw, 110px);
+        opacity: 0.52;
+        z-index: 0;
+      }
+
+      .hero-trumpet-left {
+        left: -0.6rem;
+      }
+
+      .hero-trumpet-right {
+        right: -0.6rem;
       }
 
       .auspicious-shloka {
@@ -550,24 +570,26 @@
       position: absolute;
       top: clamp(0.75rem, 2vw, 1.5rem);
       z-index: 1;
-      width: clamp(110px, 20vw, 260px);
+      width: min(20vw, 260px);
+      max-width: 260px;
+      min-width: 100px;
       height: auto;
       opacity: 0.9;
       pointer-events: none;
       filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.25));
-      animation-play-state: paused;
+      animation-fill-mode: both;
     }
 
     .hero-trumpet-left {
-      left: 0;
+      left: max(-12px, 1vw);
       transform: scaleX(1);
-      animation: trumpet-enter-left 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both paused;
+      animation: trumpet-enter-left 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
 
     .hero-trumpet-right {
-      right: 0;
+      right: max(-12px, 1vw);
       transform: scaleX(-1);
-      animation: trumpet-enter-right 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both paused;
+      animation: trumpet-enter-right 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
 
     .shower-section > img.celebration-sticker {
@@ -603,6 +625,22 @@
     }
 
     @media (max-width: 600px) {
+      .hero-trumpet {
+        top: 0.55rem;
+        width: min(23vw, 100px);
+        min-width: 54px;
+        opacity: 0.58;
+        z-index: 0;
+      }
+
+      .hero-trumpet-left {
+        left: -7px;
+      }
+
+      .hero-trumpet-right {
+        right: -7px;
+      }
+
       .shower-section > img.celebration-sticker {
         width: clamp(50px, 15vw, 72px);
         max-height: 8rem;
@@ -1300,6 +1338,25 @@
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
     const bgMusic = document.getElementById('bg-music');
+    const heroSection = document.querySelector('.hero');
+    const celebrationSection = document.querySelector('.celebration-section');
+    const heroTrumpets = document.querySelectorAll('.hero-trumpet');
+
+    function replayHeroTrumpets() {
+      heroTrumpets.forEach((trumpet) => {
+        const animationName = trumpet.classList.contains('hero-trumpet-right') ? 'trumpet-enter-right' : 'trumpet-enter-left';
+        trumpet.style.animation = 'none';
+        trumpet.offsetHeight;
+        trumpet.style.animation = `${animationName} 1.2s cubic-bezier(0.22, 1, 0.36, 1) both`;
+      });
+    }
+
+    function replayStickerAnimation() {
+      celebrationSection.classList.remove('stickers-entered');
+      void celebrationSection.offsetWidth;
+      celebrationSection.classList.add('stickers-entered');
+    }
+
     function playBackgroundMusic() {
       bgMusic.play().catch(() => {
         // Browsers may block autoplay until the user interacts.
@@ -1318,11 +1375,13 @@
       startBackgroundMusic();
       letterOverlay.classList.add('is-open');
       letterOverlay.setAttribute('aria-hidden', 'true');
+      replayHeroTrumpets();
       window.scrollTo(0, 0);
       document.body.classList.remove('letter-locked');
     });
 
     startBackgroundMusic();
+    replayHeroTrumpets();
 
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -1347,14 +1406,23 @@
     }, { threshold: 0.15 });
     photoMarqueeObserver.observe(photoMarquee);
 
-    const celebrationSection = document.querySelector('.celebration-section');
-    const stickerObserver = new IntersectionObserver((entries, currentObserver) => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        celebrationSection.classList.add('stickers-entered');
-        currentObserver.disconnect();
-      }
+    const stickerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          replayStickerAnimation();
+        }
+      });
     }, { threshold: 0.2 });
     stickerObserver.observe(celebrationSection);
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          replayHeroTrumpets();
+        }
+      });
+    }, { threshold: 0.35 });
+    heroObserver.observe(heroSection);
 
     // 2. Dynamic Countdown Clock
     const targetDate = new Date("December 2, 2026 10:30:00").getTime();
