@@ -433,15 +433,6 @@
         grid-column: 1 / -1;
       }
 
-      .rsvp-wrapper {
-        padding: 2rem 1rem;
-      }
-
-      input, select, textarea,
-      .btn-submit {
-        min-height: 48px;
-      }
-
       footer {
         padding: 2rem 1rem;
         font-size: 0.9rem;
@@ -920,17 +911,18 @@
       width: max-content;
       gap: 1rem;
       animation: photo-scroll 18s linear infinite;
+      animation-play-state: paused;
       will-change: transform;
       padding: 0.5rem 0;
     }
 
-    .photo-track:hover {
-      animation-play-state: paused;
+    .prewedding-media.carousel-active .photo-track {
+      animation-play-state: running;
     }
 
     @keyframes photo-scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      100% { transform: translateX(calc(-50% - 0.5rem)); }
     }
 
     .photo-placeholder {
@@ -987,75 +979,49 @@
       }
     }
 
-    /* RSVP Form */
-    .rsvp-wrapper {
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 12px;
-      padding: 3rem 2rem;
-      max-width: 600px;
-      margin: 0 auto;
-      box-shadow: 0 12px 35px rgba(91, 14, 27, 0.05);
+    .contact-section {
+      background: rgba(212, 175, 55, 0.05);
+      border-top: 1px solid rgba(212, 175, 55, 0.28);
     }
 
-    .form-group {
-      margin-bottom: 1.4rem;
-      text-align: left;
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem clamp(1.5rem, 5vw, 3.5rem);
+      margin-top: 1.5rem;
     }
 
-    label {
-      display: block;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.4rem;
-      color: var(--text-dark);
-      font-weight: 500;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 0.85rem;
-      border: 1px solid #D5CEBF;
-      border-radius: 4px;
-      background-color: var(--warm-ivory);
-      font-family: inherit;
-      color: var(--text-dark);
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 1rem;
-      background: var(--primary-maroon);
-      color: var(--warm-ivory);
-      border: 1px solid var(--gold);
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-height: 48px;
+      color: var(--primary-maroon);
       font-family: 'Marcellus', serif;
       font-size: 1rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background 0.3s ease;
+      text-decoration: none;
+      overflow-wrap: anywhere;
     }
 
-    .btn-submit:hover {
-      background: var(--deep-crimson);
+    .contact-link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex: 0 0 auto;
+      fill: currentColor;
     }
 
-    #rsvpMessage {
-      display: none;
-      margin-top: 1.2rem;
-      padding: 1rem;
-      background: #E8F5E9;
-      color: #2E7D32;
-      border-radius: 4px;
-      font-weight: 500;
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      color: var(--deep-crimson);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .contact-link:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 4px;
     }
 
     footer {
@@ -1070,7 +1036,7 @@
   </style>
 </head>
 <body class="letter-locked">
-  <audio id="bg-music" loop preload="auto" aria-label="Background music">
+  <audio id="bg-music" preload="auto" aria-label="Background music">
     <source src="song.mp3" type="audio/mpeg" />
   </audio>
 
@@ -1240,49 +1206,18 @@
     </div>
   </section>
 
-  <section class="shower-section rsvp-section">
-    <div class="section-flower-shower" data-flower-count="14" aria-hidden="true"></div>
-    <h2 class="section-heading reveal">RSVP</h2>
-    <span class="section-ornament reveal">&#9670;</span>
-
-    <div class="rsvp-wrapper reveal">
-      <form id="weddingRsvp">
-        <div class="form-group">
-          <label for="name">Guest Name(s)</label>
-          <input type="text" id="name" required placeholder="e.g., Rajesh Sharma">
-        </div>
-
-        <div class="form-group">
-          <label for="contact">Phone Number or Email</label>
-          <input type="text" id="contact" required placeholder="+91 98765 43210">
-        </div>
-
-        <div class="form-group">
-          <label for="attendance">Will you be attending?</label>
-          <select id="attendance" required>
-            <option value="Yes">Joyfully Accept</option>
-            <option value="No">Regretfully Decline</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="guests">Number of Guests Attending</label>
-          <select id="guests">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4+">4 or more</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="message">Warm Wishes / Notes</label>
-          <textarea id="message" rows="3" placeholder="Leave a message for Shubham and Anusha..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit">Confirm Attendance</button>
-      </form>
-      <div id="rsvpMessage">Thank you! Your response has been received.</div>
+  <section class="contact-section" aria-labelledby="contact-heading">
+    <h2 class="section-heading reveal" id="contact-heading">Send your wishes at</h2>
+    <span class="section-ornament reveal" aria-hidden="true">&#9670;</span>
+    <div class="contact-links reveal">
+      <a class="contact-link" href="tel:+918989676134" aria-label="Call 8989676134">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.56 3.58.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.19 2.46.56 3.58a1 1 0 0 1-.25 1.01l-2.19 2.2Z"/></svg>
+        <span>8989676134</span>
+      </a>
+      <a class="contact-link" href="mailto:snusha1927@gmail.com?subject=Wedding%20Wishes%20for%20Shubham%20and%Snusha&amp;body=Dear%20Snusha%2C%0D%0A%0D%0AWishing%20you%20guys%20a%20lifetime%20of%20love%2C%20laughter%2C%20and%20happiness.%20May%20your%20wedding%20day%20be%20filled%20with%20joy%20and%20beautiful%20memories!%0D%0A%0D%0AWith%20love%2C%0D%0A%5BYour%20Name%5D%0D%0A%0D%0A%F0%9F%8C%B8%20%F0%9F%92%90%20%F0%9F%8C%B7" aria-label="Email Anusha Gupta">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+        <span>snusha1927@gmail.com</span>
+      </a>
     </div>
   </section>
 
@@ -1316,15 +1251,40 @@
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
     const bgMusic = document.getElementById('bg-music');
+    const bgMusicStartTime = 105;
+    let bgMusicLoadRequested = false;
 
-    function startBackgroundMusic() {
+    function playBackgroundMusicFromCue() {
+      bgMusic.currentTime = bgMusicStartTime;
+      bgMusic.play().catch(() => {
+        // Browsers may block autoplay until the user interacts.
+      });
+    }
+
+    bgMusic.addEventListener('ended', playBackgroundMusicFromCue);
+
+    function startBackgroundMusic(userInitiated = false) {
       if (!bgMusic) return;
 
       bgMusic.volume = 0.35;
       bgMusic.muted = false;
-      bgMusic.play().catch(() => {
-        // Browsers may block autoplay until the user interacts.
-      });
+      if (bgMusic.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        playBackgroundMusicFromCue();
+        return;
+      }
+
+      if (!bgMusicLoadRequested) {
+        bgMusicLoadRequested = true;
+        bgMusic.addEventListener('loadedmetadata', playBackgroundMusicFromCue, { once: true });
+        bgMusic.load();
+      }
+
+      if (userInitiated) {
+        bgMusic.currentTime = bgMusicStartTime;
+        bgMusic.play().catch(() => {
+          // Browsers may block autoplay until the user interacts.
+        });
+      }
     }
 
     letterPrompt.addEventListener('click', () => {
@@ -1332,8 +1292,9 @@
       letterOverlay.setAttribute('aria-hidden', 'true');
       window.scrollTo(0, 0);
       document.body.classList.remove('letter-locked');
-      startBackgroundMusic();
     });
+
+    startBackgroundMusic();
 
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -1348,6 +1309,15 @@
     });
 
     revealElements.forEach(el => observer.observe(el));
+
+    const photoMarquee = document.querySelector('.photo-marquee');
+    const photoMarqueeObserver = new IntersectionObserver((entries, currentObserver) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        photoMarquee.closest('.prewedding-media').classList.add('carousel-active');
+        currentObserver.disconnect();
+      }
+    }, { threshold: 0.15 });
+    photoMarqueeObserver.observe(photoMarquee);
 
     const celebrationSection = document.querySelector('.celebration-section');
     const stickerObserver = new IntersectionObserver((entries, currentObserver) => {
@@ -1380,12 +1350,6 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // 3. Simple Client RSVP Handling
-    document.getElementById('weddingRsvp').addEventListener('submit', function(e) {
-      e.preventDefault();
-      document.getElementById('rsvpMessage').style.display = 'block';
-      this.reset();
-    });
   </script>
 </body>
 </html>
