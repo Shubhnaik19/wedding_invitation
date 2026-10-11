@@ -502,6 +502,16 @@
       to { transform: translateX(0) scaleX(-1); }
     }
 
+    @keyframes sticker-enter-left {
+      from { opacity: 0; transform: translateX(-70vw); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes sticker-enter-right {
+      from { opacity: 0; transform: translateX(70vw); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
     .auspicious-shloka {
       font-family: 'Marcellus', serif;
       color: var(--light-gold);
@@ -566,6 +576,61 @@
       right: 0;
       transform: scaleX(-1);
       animation: trumpet-enter-right 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both paused;
+    }
+
+    .shower-section > img.celebration-sticker {
+      position: absolute;
+      bottom: 1rem;
+      z-index: 2;
+      width: clamp(64px, 10vw, 120px);
+      max-height: 10rem;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.2));
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .celebration-section {
+      padding-bottom: 13rem;
+    }
+
+    .celebration-sticker.left {
+      left: calc(50% - clamp(0.5rem, 1.5vw, 1rem) - clamp(64px, 10vw, 120px));
+    }
+
+    .celebration-sticker.right {
+      right: calc(50% - clamp(0.5rem, 1.5vw, 1rem) - clamp(64px, 10vw, 120px));
+    }
+
+    .celebration-section.stickers-entered .celebration-sticker.left {
+      animation: sticker-enter-left 6.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .celebration-section.stickers-entered .celebration-sticker.right {
+      animation: sticker-enter-right 6.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @media (max-width: 600px) {
+      .shower-section > img.celebration-sticker {
+        width: clamp(50px, 15vw, 72px);
+        max-height: 8rem;
+      }
+
+      .celebration-section { padding-bottom: 10rem; }
+      .celebration-sticker.left {
+        left: calc(50% - 0.35rem - clamp(50px, 15vw, 72px));
+      }
+      .celebration-sticker.right {
+        right: calc(50% - 0.35rem - clamp(50px, 15vw, 72px));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shower-section > img.celebration-sticker {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
     }
 
     .letter-overlay.is-open + .hero .hero-trumpet {
@@ -823,29 +888,97 @@
       font-size: 0.85rem;
     }
 
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
+    .photo-marquee {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      margin-top: 2rem;
+      padding: 1rem 0 1.5rem;
+      background: linear-gradient(180deg, rgba(91,14,27,0.03), rgba(91,14,27,0.08));
+    }
+
+    .photo-marquee::before,
+    .photo-marquee::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .photo-marquee::before {
+      background: linear-gradient(90deg, rgba(243,227,191,1), rgba(243,227,191,0) 10%, rgba(243,227,191,0) 90%, rgba(243,227,191,1));
+    }
+
+    .photo-marquee::after {
+      background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(91,14,27,0.06), rgba(255,255,255,0.2));
+      mix-blend-mode: multiply;
+    }
+
+    .photo-track {
+      display: flex;
+      width: max-content;
+      gap: 1rem;
+      animation: photo-scroll 18s linear infinite;
+      will-change: transform;
+      padding: 0.5rem 0;
+    }
+
+    .photo-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes photo-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     .photo-placeholder {
-      aspect-ratio: 4 / 3;
-      min-height: 130px;
-      padding: 1rem;
-      background:
-        linear-gradient(rgba(91, 14, 27, 0.2), rgba(91, 14, 27, 0.2)),
-        url('ganesha.png') center / 110px auto no-repeat,
-        var(--parchment);
-      color: var(--primary-maroon);
-      font-family: 'Marcellus', serif;
-      font-size: 0.85rem;
-      text-align: center;
+      position: relative;
+      flex: 0 0 min(82vw, 360px);
+      max-width: 360px;
+      height: 500px;
+      overflow: hidden;
+      border: 8px solid #e9d6a0;
+      border-radius: 16px 16px 12px 12px;
+      box-shadow: 0 12px 28px rgba(91, 14, 27, 0.14), inset 0 0 0 2px rgba(91,14,27,0.08);
+      background: #f9f0d9;
+      transform: rotate(-0.6deg);
+    }
+
+    .photo-placeholder:nth-child(even) {
+      transform: rotate(0.8deg);
+    }
+
+    .photo-placeholder img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      background: linear-gradient(145deg, #f5eede, #f0dfc0);
+      filter: saturate(0.88) contrast(1.04);
     }
 
     .photo-placeholder span {
-      padding: 0.35rem 0.55rem;
-      background: rgba(255, 253, 249, 0.82);
+      position: absolute;
+      left: 0.8rem;
+      bottom: 0.8rem;
+      padding: 0.4rem 0.7rem;
+      background: rgba(91, 14, 27, 0.82);
+      color: #f7e8bf;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: 'Marcellus', serif;
+    }
+
+    @media (max-width: 600px) {
+      .photo-placeholder {
+        flex-basis: min(82vw, 280px);
+        height: 380px;
+      }
     }
 
     @media (max-width: 600px) {
@@ -937,6 +1070,9 @@
   </style>
 </head>
 <body class="letter-locked">
+  <audio id="bg-music" loop preload="auto" aria-label="Background music">
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
 
   <div class="letter-overlay" aria-hidden="false">
     <div class="letter-envelope">
@@ -977,6 +1113,8 @@
 
   <section class="shower-section celebration-section">
     <div class="section-flower-shower" data-flower-count="18" aria-hidden="true"></div>
+    <img class="celebration-sticker left" src="Smiling Indian Bride in Namaste Pose.png" alt="Bride in a traditional wedding outfit" />
+    <img class="celebration-sticker right" src="Traditional Indian Groom in Namaste Pose.png" alt="Groom in a traditional wedding outfit" />
     <div class="reveal">
       <h2 class="section-heading">The Celebration</h2>
       <span class="section-ornament">&#10070; &#10070; &#10070;</span>
@@ -1047,18 +1185,56 @@
       <h2 class="section-heading">Pre-Wedding Memories</h2>
       <span class="section-ornament">&#10070;</span>
 
-      <div class="media-grid">
-        <div class="video-placeholder" aria-label="Pre-wedding video placeholder">
-          <div>
-            <p class="media-placeholder-title">Pre-Wedding Video</p>
-            <p class="media-placeholder-copy">Our story in motion will be added here soon.</p>
+      <div class="photo-marquee">
+        <div class="photo-track" aria-label="Pre-wedding photo collage">
+          <div class="photo-placeholder">
+            <img src="img1.JPG" alt="Pre-wedding memory 1" />
+            <span>Love Story</span>
           </div>
-        </div>
-
-        <div class="photo-grid" aria-label="Pre-wedding photo placeholders">
-          <div class="photo-placeholder"><span>Photo coming soon</span></div>
-          <div class="photo-placeholder"><span>Photo coming soon</span></div>
-          <div class="photo-placeholder"><span>Photo coming soon</span></div>
+          <div class="photo-placeholder">
+            <img src="img2.JPG" alt="Pre-wedding memory 2" />
+            <span>Forever Begins</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC05310.JPG" alt="Pre-wedding memory 3" />
+            <span>Moments</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC05390.JPG" alt="Pre-wedding memory 4" />
+            <span>Joy</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC06179.JPG" alt="Pre-wedding memory 5" />
+            <span>Us</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC_2266.JPG" alt="Pre-wedding memory 6" />
+            <span>Always</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="img1.JPG" alt="Pre-wedding memory 1 duplicate" />
+            <span>Love Story</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="img2.JPG" alt="Pre-wedding memory 2 duplicate" />
+            <span>Forever Begins</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC05310.JPG" alt="Pre-wedding memory 3 duplicate" />
+            <span>Moments</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC05390.JPG" alt="Pre-wedding memory 4 duplicate" />
+            <span>Joy</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC06179.JPG" alt="Pre-wedding memory 5 duplicate" />
+            <span>Us</span>
+          </div>
+          <div class="photo-placeholder">
+            <img src="DSC_2266.JPG" alt="Pre-wedding memory 6 duplicate" />
+            <span>Always</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1139,12 +1315,24 @@
     // 1. Scroll Triggered Animation Observer
     const letterOverlay = document.querySelector('.letter-overlay');
     const letterPrompt = document.querySelector('.letter-prompt');
+    const bgMusic = document.getElementById('bg-music');
+
+    function startBackgroundMusic() {
+      if (!bgMusic) return;
+
+      bgMusic.volume = 0.35;
+      bgMusic.muted = false;
+      bgMusic.play().catch(() => {
+        // Browsers may block autoplay until the user interacts.
+      });
+    }
 
     letterPrompt.addEventListener('click', () => {
       letterOverlay.classList.add('is-open');
       letterOverlay.setAttribute('aria-hidden', 'true');
       window.scrollTo(0, 0);
       document.body.classList.remove('letter-locked');
+      startBackgroundMusic();
     });
 
     const revealElements = document.querySelectorAll('.reveal');
@@ -1160,6 +1348,15 @@
     });
 
     revealElements.forEach(el => observer.observe(el));
+
+    const celebrationSection = document.querySelector('.celebration-section');
+    const stickerObserver = new IntersectionObserver((entries, currentObserver) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        celebrationSection.classList.add('stickers-entered');
+        currentObserver.disconnect();
+      }
+    }, { threshold: 0.2 });
+    stickerObserver.observe(celebrationSection);
 
     // 2. Dynamic Countdown Clock
     const targetDate = new Date("December 2, 2026 10:30:00").getTime();
